@@ -1,0 +1,54 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: tru
+
+  tasks:
+    - name: user | ansible |  create
+      tags: always
+      user:
+        name: ansible
+        groups: root
+        state: present
+        createhome: yes
+
+    - name: user | ansible | ssh pub key
+      tags: always
+      authorized_key:
+        user: ansible
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFE>
+        state: present
+
+    - name: user | ansible | sudoers
+      tags: always
+      copy:
+        src: sudoer_ansible
+        dest: /etc/sudoers.d/ansible
+        owner: root
+        group: root
+        mode: 0440
+
+    - name: user | bean | create
+      tags: always
+      user:
+        name: bean
+        group: bean
+        state: present
+        createhome: yes
+
+    - name: user | bean | ssh pub key
+      tags: always
+      authorized_key:
+        user: bean
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbs>
+        state: present
+
+    - name: user | bean | sudoers
+      tags: always
+      copy:
+        src: sudoer_bean
+        dest: /etc/sudoers.d/bean
+        owner: root
+        group: root
+        mode: 0440
