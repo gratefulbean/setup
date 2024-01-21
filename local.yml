@@ -18,6 +18,7 @@
         groups: root
         state: present
         createhome: yes
+        shell: /bin/bash
 
     - name: user | ansible | ssh pub key
       tags: always
@@ -48,6 +49,7 @@
         group: bean
         state: present
         createhome: yes
+        shell: /bin/bash
 
     - name: user | bean | ssh pub key
       tags: always
