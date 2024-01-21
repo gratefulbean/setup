@@ -5,6 +5,12 @@
   become: true
 
   tasks:
+    - name: user | ansible | group
+      tags: always
+      group:
+        name: ansible
+        state: present
+
     - name: user | ansible |  create
       tags: always
       user:
@@ -28,6 +34,12 @@
         owner: root
         group: root
         mode: 0440
+
+    - name: user | bean | group
+      tags: always
+      group:
+        name: bean
+        state: present
 
     - name: user | bean | create
       tags: always
