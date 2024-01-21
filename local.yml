@@ -2,7 +2,7 @@
 
 - hosts: localhost
   connection: local
-  become: tru
+  become: true
 
   tasks:
     - name: user | ansible |  create
@@ -15,9 +15,9 @@
 
     - name: user | ansible | ssh pub key
       tags: always
-      authorized_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible"
+      authorized_key:
         user: ansible
-        key: "ssh-ed
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible"
         state: present
 
     - name: user | ansible | sudoers
