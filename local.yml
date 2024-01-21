@@ -15,9 +15,9 @@
 
     - name: user | ansible | ssh pub key
       tags: always
-      authorized_key:
+      authorized_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible"
         user: ansible
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFE>
+        key: "ssh-ed
         state: present
 
     - name: user | ansible | sudoers
@@ -41,7 +41,7 @@
       tags: always
       authorized_key:
         user: bean
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbs>
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
         state: present
 
     - name: user | bean | sudoers
