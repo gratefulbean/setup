@@ -51,25 +51,14 @@
         createhome: yes
         shell: /bin/bash
 
-    - name: Add SSH public keys for user bean
-      debug:
-        msg: "Adding SSH public keys for user bean"
+    - name: user | bean | ssh pub key
       tags: always
-
-    - name: Install bean's SSH public keys
       authorized_key:
         user: bean
         key:
           - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
           - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell"
-      state: present
-      tags: always
-
-    - name: Debug message after installing SSH keys
-      debug:
-        msg: "SSH keys for user bean installed successfully"
-      tags: always
-
+        state: present
 
     - name: user | bean | sudoers
       tags: always
@@ -79,3 +68,8 @@
         owner: root
         group: root
         mode: 0440
+
+    - name: Debug after adding Rivendell SSH key
+      tags: always
+      debug:
+        msg: "After adding Rivendell SSH key"
