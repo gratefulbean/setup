@@ -68,3 +68,7 @@
         owner: root
         group: root
         mode: 0440
+
+    - name: Debug after adding Rivendell SSH key
+      debug:
+        msg: "After adding Rivendell SSH key"
