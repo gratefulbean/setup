@@ -103,3 +103,9 @@
         owner: root
         group: root
         mode: 0440
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted
