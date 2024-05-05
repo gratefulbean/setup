@@ -55,8 +55,9 @@
       tags: always
       authorized_key:
         user: bean
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOQCiBoRnu0BO3Y4zn5lehiKjAskV5t+oEZLCfO1ewc7 bean@rivendell"
+        key: 
+          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
+          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOQCiBoRnu0BO3Y4zn5lehiKjAskV5t+oEZLCfO1ewc7 bean@rivendell"
         state: present
 
     - name: user | bean | sudoers
