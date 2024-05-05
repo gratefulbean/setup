@@ -82,12 +82,19 @@
       tags: always
 
     - name: Install bean's SSH public keys
+      tags: always
       authorized_key:
         user: bean
-        key:
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell"
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
+        state: present
+
+    - name: Install bean's SSH public keys
       tags: always
+      authorized_key:
+        user: bean
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell"
+        state: present
+
 
     - name: Debug message after installing SSH keys
       debug:
