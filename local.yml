@@ -55,7 +55,7 @@
       tags: always
       authorized_key:
         user: bean
-        key: 
+        key:
           - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
           - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell"
         state: present
@@ -70,5 +70,6 @@
         mode: 0440
 
     - name: Debug after adding Rivendell SSH key
+      tags: always
       debug:
         msg: "After adding Rivendell SSH key"
