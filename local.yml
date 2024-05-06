@@ -55,7 +55,7 @@
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: '^#?Port '
-        line: 'Port 20'
+        line: 'Port 22'
       notify: Restart SSH
 
     - name: Disable root login
