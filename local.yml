@@ -49,12 +49,6 @@
 #        - { user: bean }
 #        - { user: devin }
 
-    - name: Remove sudo privileges for devin
-      file:
-        path: "/etc/sudoers.d/devin"
-        state: absent
-      ignore_errors: yes
-
     - name: Update SSH configuration
       lineinfile:
         path: /etc/ssh/sshd_config
@@ -76,7 +70,6 @@
         owner: root
         group: root
         mode: 0440
-
 
     - name: Copy sudoers file for user ansible
       tags: always
