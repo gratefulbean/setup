@@ -69,7 +69,7 @@
 
     - name: Copy sudoers file for user bean
       copy:
-        src: /path/to/files/sudoer_bean
+        src: sudoer_bean
         dest: /etc/sudoers.d/bean
         owner: root
         group: root
@@ -79,7 +79,7 @@
 
     - name: Copy sudoers file for user ansible
       copy:
-        src: /path/to/files/sudoer_ansible
+        src: sudoer_ansible
         dest: /etc/sudoers.d/ansible
         owner: root
         group: root
