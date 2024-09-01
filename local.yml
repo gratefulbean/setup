@@ -67,17 +67,20 @@
         - { key: 'PasswordAuthentication', line: 'PasswordAuthentication no' }
       notify: Restart SSH
 
-    - name: Copy sudoers file for user bean
+    - name: add sudo priveleges file for devin
+      tags: always
+      become: yes
       copy:
-        src: files/sudoer_bean
-        dest: /etc/sudoers.d/bean
+        src: sudoer_devin
+        dest: /etc/sudoers.d/devin
         owner: root
         group: root
-        mode: '0440'
-      validate: '/usr/sbin/visudo -cf %s'  # Validate the sudoers file for syntax errors
-      tags: always
+        mode: 0440
+
 
     - name: Copy sudoers file for user ansible
+      tags: always
+      become: yes
       copy:
         src: files/sudoer_ansible
         dest: /etc/sudoers.d/ansible
@@ -85,4 +88,4 @@
         group: root
         mode: '0440'
       validate: '/usr/sbin/visudo -cf %s'  # Validate the sudoers file for syntax errors
-      tags: always
+
