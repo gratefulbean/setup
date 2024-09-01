@@ -5,114 +5,70 @@
   become: true
 
   tasks:
-    - name: user | ansible | group
-      tags: always
+    - name: Ensure necessary groups exist
       group:
-        name: ansible
+        name: "{{ item }}"
         state: present
+      loop:
+        - ansible
+        - bean
+        - devin
 
-    - name: user | ansible |  create
-      tags: always
+    - name: Ensure necessary users exist
       user:
-        name: ansible
-        groups: root
+        name: "{{ item.name }}"
+        uid: "{{ item.uid | default(omit) }}"
+        group: "{{ item.group }}"
+        groups: "{{ item.groups | default(omit) }}"
         state: present
         createhome: yes
         shell: /bin/bash
+      loop:
+        - { name: ansible, group: root, groups: [] }
+        - { name: bean, group: bean, groups: [] }
+        - { name: devin, group: devin, uid: 3000, groups: [] }
 
-    - name: user | ansible | ssh pub key
-      tags: always
+    - name: Manage authorized SSH keys
       authorized_key:
-        user: ansible
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible"
-        state: present
+        user: "{{ item.user }}"
+        key: "{{ item.key }}"
+        state: "{{ item.state }}"
+      loop:
+        - { user: ansible, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible", state: present }
+        - { user: devin, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKFnKQ3jN447peX7LZL5jPiiEvWYm3pNDIUAu4eRtURj devin@acer-chromebook", state: present }
+        - { user: bean, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell", state: absent }
 
-    - name: user | ansible | sudoers
-      tags: always
+    - name: Copy .bashrc files
       copy:
-        src: sudoer_ansible
-        dest: /etc/sudoers.d/ansible
-        owner: root
-        group: root
-        mode: 0440
+        src: files/bashrc
+        dest: "/home/{{ item.user }}/.bashrc"
+        owner: "{{ item.user }}"
+        group: "{{ item.user }}"
+        mode: "0644"
+      loop:
+        - { user: bean }
+        - { user: devin }
 
-    - name: user | bean | group
-      tags: always
-      group:
-        name: bean
-        state: present
+    - name: Remove sudo privileges for devin
+      file:
+        path: "/etc/sudoers.d/devin"
+        state: absent
+      ignore_errors: yes
 
-    - name: user | bean | create
-      tags: always
-      user:
-        name: bean
-        group: bean
-        state: present
-        createhome: yes
-        shell: /bin/bash
-
-    - name: Update SSH port
+    - name: Update SSH configuration
       lineinfile:
         path: /etc/ssh/sshd_config
-        regexp: '^#?Port '
-        line: 'Port 22'
+        regexp: '^#?{{ item.key }}'
+        line: "{{ item.line }}"
+      loop:
+        - { key: 'Port ', line: 'Port 22' }
+        - { key: 'PermitRootLogin', line: 'PermitRootLogin no' }
+        - { key: 'PubkeyAuthentication', line: 'PubkeyAuthentication yes' }
+        - { key: 'PasswordAuthentication', line: 'PasswordAuthentication no' }
       notify: Restart SSH
 
-    - name: Disable root login
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^#?PermitRootLogin'
-        line: 'PermitRootLogin no'
-
-    - name: Enable key authentication
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^#?PubkeyAuthentication'
-        line: 'PubkeyAuthentication yes'
-
-    - name: Disable password authentication
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^#?PasswordAuthentication'
-        line: 'PasswordAuthentication no'
-
-    - name: Add SSH public keys for user bean
-      debug:
-        msg: "Adding SSH public keys for user bean"
-      tags: always
-
-    - name: Install bean's SSH public keys
-      tags: always
-      authorized_key:
-        user: bean
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
-        state: present
-
-    - name: Install bean's SSH public keys
-      tags: always
-      authorized_key:
-        user: bean
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell"
-        state: present
-
-
-    - name: Debug message after installing SSH keys
-      debug:
-        msg: "SSH keys for user bean installed successfully"
-      tags: always
-
-
-    - name: user | bean | sudoers
-      tags: always
+    - name: Copy sudoers files for ansible and bean
       copy:
-        src: sudoer_bean
-        dest: /etc/sudoers.d/bean
-        owner: root
-        group: root
-        mode: 0440
-
-  handlers:
-    - name: Restart SSH
-      service:
-        name: ssh
-        state: restarted
+        src: "{{ item.src }}"
+        dest: "/etc/sudoers.d/{{ item.dest }}"
+        owner: ro
