@@ -38,16 +38,16 @@
         - { user: devin, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKFnKQ3jN447peX7LZL5jPiiEvWYm3pNDIUAu4eRtURj devin@acer-chromebook", state: present }
         - { user: bean, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell", state: absent }
 
-#    - name: Copy .bashrc files
-#       copy:
-#        src: files/bashrc
-#        dest: "/home/{{ item.user }}/.bashrc"
-#        owner: "{{ item.user }}"
-#        group: "{{ item.user }}"
-#        mode: "0644"
-#      loop:
-#        - { user: bean }
-#        - { user: devin }
+    - name: Copy .bashrc files
+       copy:
+        src: files/bashrc
+        dest: "/home/{{ item.user }}/.bashrc"
+        owner: "{{ item.user }}"
+        group: "{{ item.user }}"
+        mode: "0644"
+      loop:
+        - { user: bean }
+        - { user: devin }
 
     - name: Update SSH configuration
       lineinfile:
@@ -61,12 +61,12 @@
         - { key: 'PasswordAuthentication', line: 'PasswordAuthentication no' }
       notify: Restart SSH
 
-    - name: add sudo priveleges file for devin
+    - name: add sudo priveleges file for bean
       tags: always
       become: yes
       copy:
-        src: sudoer_devin
-        dest: /etc/sudoers.d/devin
+        src: sudoer_bean
+        dest: /etc/sudoers.d/bean
         owner: root
         group: root
         mode: 0440
