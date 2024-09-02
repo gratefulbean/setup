@@ -39,7 +39,7 @@
         - { user: bean, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell", state: absent }
 
     - name: Copy .bashrc files
-       copy:
+      copy:
         src: files/bashrc
         dest: "/home/{{ item.user }}/.bashrc"
         owner: "{{ item.user }}"
