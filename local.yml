@@ -65,7 +65,7 @@
       tags: always
       become: yes
       copy:
-        src: sudoer_bean
+        src: files/sudoer_bean
         dest: /etc/sudoers.d/bean
         owner: root
         group: root
