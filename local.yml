@@ -3,6 +3,8 @@
 - hosts: localhost
   connection: local
   become: true
+  vars_files:
+    - vault.yml
 
   tasks:
     - name: Ensure necessary groups exist
@@ -15,8 +17,6 @@
         - devin
 
     - name: Ensure necessary users exist
-      vars_files:
-        - vault.yml
       user:
         name: "{{ item.name }}"
         uid: "{{ item.uid | default(omit) }}"
