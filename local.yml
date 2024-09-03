@@ -3,8 +3,6 @@
 - hosts: localhost
   connection: local
   become: true
-  vars_files:
-    - vault.yml
 
   tasks:
     - name: Ensure necessary groups exist
@@ -25,7 +23,6 @@
         state: present
         createhome: yes
         shell: /bin/bash
-        password: "{{ user_passwords[item.name] | default(omit) }}"
       loop:
         - { name: ansible, group: root, groups: [] }
         - { name: bean, group: bean, groups: [] }
