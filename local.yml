@@ -69,7 +69,7 @@
         dest: /etc/sudoers.d/bean
         owner: root
         group: root
-        mode: 0440
+        mode: 0640
 
     - name: Copy sudoers file for user ansible
       tags: always
@@ -79,4 +79,4 @@
         dest: /etc/sudoers.d/ansible
         owner: root
         group: root
-        mode: 0440
+        mode: 0640
