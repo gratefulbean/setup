@@ -65,18 +65,18 @@
       tags: always
       become: yes
       copy:
-        src: files/sudoer_bean
+        src: sudoer_bean
         dest: /etc/sudoers.d/bean
         owner: root
         group: root
-        mode: "0440"
+        mode: 0440
 
     - name: Copy sudoers file for user ansible
       tags: always
       become: yes
       copy:
-        src: files/sudoer_ansible
+        src: sudoer_ansible
         dest: /etc/sudoers.d/ansible
         owner: root
         group: root
-        mode: "0440"
+        mode: 0440
