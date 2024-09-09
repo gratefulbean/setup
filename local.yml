@@ -5,14 +5,15 @@
   become: true
 
   tasks:
-    - name: Ensure necessary groups exist
+    - name: Ensure necessary groups exist with correct GIDs
       group:
-        name: "{{ item }}"
+        name: "{{ item.name }}"
+        gid: "{{ item.gid | default(omit) }}"
         state: present
       loop:
-        - ansible
-        - bean
-        - devin
+        - { name: ansible }
+        - { name: bean }
+        - { name: devin, gid: 3000 }
 
     - name: Ensure necessary users exist
       user:
