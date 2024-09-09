@@ -66,18 +66,22 @@
       tags: always
       become: yes
       copy:
-        src: sudoer_bean
-        dest: /etc/sudoers.d/bean
+        src: "{{ item.src }}"
+        dest: "/etc/sudoers.d/{{ item.dest }}"
         owner: root
         group: root
         mode: "0640"
+      loop:
+        - { src: sudoer_bean, dest: bean }
+        - { src: sudoer_ansible, dest: ansible }
 
-    - name: Copy sudoers file for user ansible
+    - name: Add 'bean' and 'ansible' to sudoers with NOPASSWD
       tags: always
       become: yes
-      copy:
-        src: sudoer_ansible
-        dest: /etc/sudoers.d/ansible
-        owner: root
-        group: root
-        mode: "0640"
+      sudoers:
+        name: "{{ item.name }}"
+        state: present
+        sudo_opts: "NOPASSWD:ALL"
+      loop:
+        - { name: bean }
+        - { name: ansible }
