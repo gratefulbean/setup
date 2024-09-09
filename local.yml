@@ -75,13 +75,3 @@
         - { src: sudoer_bean, dest: bean }
         - { src: sudoer_ansible, dest: ansible }
 
-    - name: Add 'bean' and 'ansible' to sudoers with NOPASSWD
-      tags: always
-      become: yes
-      sudoers:
-        name: "{{ item.name }}"
-        state: present
-        sudo_opts: "NOPASSWD:ALL"
-      loop:
-        - { name: bean }
-        - { name: ansible }
