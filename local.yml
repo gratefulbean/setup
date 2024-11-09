@@ -53,14 +53,16 @@
     - name: Update SSH configuration
       lineinfile:
         path: /etc/ssh/sshd_config
-        regexp: '^#?{{ item.key }}'
+        regexp: '^#?\s*{{ item.key }}'
         line: "{{ item.line }}"
+        state: present
       loop:
-        - { key: 'Port ', line: 'Port 22' }
+        - { key: 'Port', line: 'Port 22' }
         - { key: 'PermitRootLogin', line: 'PermitRootLogin no' }
         - { key: 'PubkeyAuthentication', line: 'PubkeyAuthentication yes' }
         - { key: 'PasswordAuthentication', line: 'PasswordAuthentication no' }
       notify: Restart SSH
+
 
     - name: add sudo priveleges file for bean
       tags: always
