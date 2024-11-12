@@ -36,6 +36,7 @@
         state: "{{ item.state }}"
       loop:
         - { user: ansible, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible", state: present }
+        - { user: devin, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGZgeibZEOiV/uqHMOg9vyeCkI0QbI6Akkar7wb0wa+ devin@hp_desktop", state: present }
         - { user: devin, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKFnKQ3jN447peX7LZL5jPiiEvWYm3pNDIUAu4eRtURj devin@acer-chromebook", state: present }
         - { user: bean, key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx7pxPl9zOUCRwBoo9EfDT9Knx/ssU01FFftP6M21Kj bean@rivendell", state: absent }
 
@@ -53,7 +54,7 @@
     - name: Update SSH configuration
       lineinfile:
         path: /etc/ssh/sshd_config
-        regexp: '^#?\s*{{ item.key }}'
+        regexp: "^{{ item.key }}"
         line: "{{ item.line }}"
         state: present
       loop:
